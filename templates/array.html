@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Array Sorting Animation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <style>
+        .array-bar {
+            width: 20px;
+            height: 100px;
+            margin-right: 5px;
+            display: inline-block;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Array Sorting Animation</h1>
+        <div id="array-container"></div>
+        <br>
+        <button class="btn btn-primary" onclick="startSorting()">Start Sorting</button>
+    </div>
+
+    <script>
+        // Generate a random array of numbers
+function generateArray(size) {
+    var array = [];
+    for (var i = 0; i < size; i++) {
+        array.push(Math.floor(Math.random() * 100) + 1);
+    }
+    return array;
+}
+
+// Render the array bars
+function renderArray(array) {
+    var container = document.getElementById("array-container");
+    container.innerHTML = "";
+
+    for (var i = 0; i < array.length; i++) {
+        var bar = document.createElement("div");
+        bar.classList.add("array-bar");
+        bar.style.height = array[i] + "px";
+        container.appendChild(bar);
+    }
+}
+
+// Swap two elements in the array
+function swap(array, i, j) {
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+
+// Bubble sort algorithm
+async function bubbleSort(array) {
+    var len = array.length;
+    var swapped;
+
+    do {
+        swapped = false;
+
+        for (var i = 0; i < len - 1; i++) {
+            var bars = document.getElementsByClassName("array-bar");
+            bars[i].style.backgroundColor = "red";
+            bars[i + 1].style.backgroundColor = "red";
+
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            if (array[i] > array[i + 1]) {
+                swap(array, i, i + 1);
+                swapped = true;
+                renderArray(array);
+            }
+
+            bars[i].style.backgroundColor = "#007bff";
+            bars[i + 1].style.backgroundColor = "#007bff";
+        }
+
+        len--;
+    } while (swapped);
+}
+
+// Start the sorting animation
+function startSorting() {
+    var array = generateArray(10); // Change the size of the array here
+    renderArray(array);
+    bubbleSort(array);
+}
+
+    </script>
+</body>
+</html>
